@@ -7,7 +7,7 @@ exports.addProduct = async (req, res) => {
 
         // Validation for images
         if (!req.files || req.files.length < 1) {
-            return res.status(400).json({ message: 'Minimum 3 images specific required.' });
+            return res.status(400).json({ message: 'Minimum  images specific required.' });
         }
         if (req.files.length > 10) {
             return res.status(400).json({ message: 'Maximum 10 images allowed.' });
@@ -96,6 +96,65 @@ exports.getMyProducts = async (req, res) => {
         });
 
         res.json(products);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.stopAuction = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { action } = req.body; // 'sell' or 'delete'
+        const userId = req.user.id; // Seller
+
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ message: 'Product not found' });
+
+        if (product.user_id !== userId) {
+            return res.status(403).json({ message: 'Not authorized to stop this auction' });
+        }
+
+        if (action === 'delete') {
+            await Product.delete(id);
+            return res.json({ message: 'Auction deleted successfully' });
+        } else if (action === 'sell') {
+            // "Sell" means expire it now so highest bidder wins
+            await Product.updateDeadline(id, new Date());
+            return res.json({ message: 'Auction stopped and sold to highest bidder' });
+        } else {
+            return res.status(400).json({ message: 'Invalid action' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.getWonProducts = async (req, res) => {
+    try {
+        const products = await Product.findWonProducts(req.user.id);
+
+        products.forEach(p => {
+            if (p.images) p.images = JSON.parse(p.images);
+        });
+
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.getSoldProducts = async (req, res) => {
+    try {
+        // Products I own, deadline passed.
+        const myProducts = await Product.findByUserId(req.user.id);
+        const now = new Date();
+        const sold = myProducts.filter(p => new Date(p.deadline) < now);
+
+        sold.forEach(p => {
+            if (p.images) p.images = JSON.parse(p.images);
+        });
+
+        res.json(sold);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

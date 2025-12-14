@@ -24,6 +24,7 @@ const Register = () => {
         try {
             const response = await axios.post('/auth/register', formData);
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user info
             window.location.href = '/';
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');

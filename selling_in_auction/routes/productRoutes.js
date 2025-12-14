@@ -130,4 +130,34 @@ router.get('/search/query', authMiddleware, productController.searchProducts);
  */
 router.get('/user/me', authMiddleware, productController.getMyProducts);
 
+router.post('/:id/stop', authMiddleware, productController.stopAuction);
+
+/**
+ * @swagger
+ * /products/user/won:
+ *   get:
+ *     summary: Get products won by user
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of won products
+ */
+router.get('/user/won', authMiddleware, productController.getWonProducts);
+
+/**
+ * @swagger
+ * /products/user/sold:
+ *   get:
+ *     summary: Get products sold by user
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of sold products
+ */
+router.get('/user/sold', authMiddleware, productController.getSoldProducts);
+
 module.exports = router;

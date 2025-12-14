@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import ProductDetails from './pages/ProductDetails';
 import CreateProduct from './pages/CreateProduct';
 import MyBids from './pages/MyBids';
+import Profile from './pages/Profile';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/create-product" element={<CreateProduct />} />
             <Route path="/my-bids" element={<MyBids />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

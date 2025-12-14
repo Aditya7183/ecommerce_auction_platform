@@ -13,6 +13,7 @@ const Login = () => {
         try {
             const response = await axios.post('/auth/login', { identifier, password });
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user info
             // Force reload or redirect to update auth state in App
             window.location.href = '/';
         } catch (err) {

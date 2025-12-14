@@ -45,6 +45,27 @@ const Product = {
     findByUserId: async (userId) => {
         const result = await db.query(`SELECT * FROM products WHERE user_id = $1 ORDER BY created_at DESC`, [userId]);
         return result.rows;
+    },
+    updateDeadline: async (id, newDeadline) => {
+        const result = await db.query(`UPDATE products SET deadline = $1 WHERE id = $2 RETURNING *`, [newDeadline, id]);
+        return result.rows[0];
+    },
+    delete: async (id) => {
+        await db.query(`DELETE FROM bids WHERE product_id = $1`, [id]);
+        await db.query(`DELETE FROM products WHERE id = $1`, [id]);
+        return true;
+    },
+    findWonProducts: async (userId) => {
+        const sql = `
+            SELECT p.*, b.bidded_amount as sold_price
+            FROM products p
+            JOIN bids b ON p.id = b.product_id
+            WHERE p.deadline < NOW()
+            AND b.user_id = $1
+            AND b.bidded_amount = (SELECT MAX(b2.bidded_amount) FROM bids b2 WHERE b2.product_id = p.id)
+        `;
+        const result = await db.query(sql, [userId]);
+        return result.rows;
     }
 };
 
