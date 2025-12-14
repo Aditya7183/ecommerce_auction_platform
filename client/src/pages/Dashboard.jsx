@@ -22,8 +22,10 @@ const Dashboard = () => {
     };
 
     const calculateTimeLeft = (deadline) => {
+        if (!deadline) return 'No Deadline';
         const now = new Date();
         const end = new Date(deadline);
+        if (isNaN(end.getTime())) return 'Invalid Date';
         const diff = end - now;
         if (diff <= 0) return 'Expired';
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -60,7 +62,7 @@ const Dashboard = () => {
                             <div className="flex justify-between items-baseline">
                                 <h3 className="text-xl font-semibold text-gray-900 truncate">{product.title}</h3>
                                 <span className="text-sm font-medium text-red-500 bg-red-50 px-2 py-0.5 rounded">
-                                    {calculateTimeLeft(product.dead_line)}
+                                    {calculateTimeLeft(product.deadline)}
                                 </span>
                             </div>
                             <p className="mt-2 text-gray-600 line-clamp-2">{product.description}</p>

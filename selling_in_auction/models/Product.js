@@ -7,7 +7,11 @@ const Product = {
         return result.rows[0];
     },
     findById: async (id) => {
-        const result = await db.query(`SELECT * FROM products WHERE id = $1`, [id]);
+        const result = await db.query(`
+            SELECT p.*, u.name as seller_name, u.mobile as seller_mobile, u.location as seller_location 
+            FROM products p 
+            JOIN users u ON p.user_id = u.id 
+            WHERE p.id = $1`, [id]);
         return result.rows[0];
     },
     findAll: async ({ category, location, search }) => {

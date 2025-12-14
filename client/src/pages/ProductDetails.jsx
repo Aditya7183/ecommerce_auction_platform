@@ -50,7 +50,7 @@ const ProductDetails = () => {
     if (loading) return <div className="text-center py-10">Loading...</div>;
     if (!product) return <div className="text-center py-10 text-red-500">{error || 'Product not found'}</div>;
 
-    const currentHighestBid = bids.length > 0 ? Math.max(...bids.map(b => b.amount)) : product.base_price;
+    const currentHighestBid = bids.length > 0 ? Math.max(...bids.map(b => b.bidded_amount)) : product.base_price;
 
     return (
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -77,6 +77,27 @@ const ProductDetails = () => {
                             <span className="text-2xl font-bold text-gray-900">₹{product.base_price}</span>
                         </div>
                         <div className="flex items-center justify-between mt-2">
+                            <span className="text-gray-600">Product Age:</span>
+                            <span className="text-lg font-medium text-gray-900">{product.product_age || 'N/A'}</span>
+                        </div>
+                        <div className="mt-4 bg-indigo-50 p-4 rounded-lg">
+                            <h4 className="text-sm font-bold text-indigo-900 uppercase tracking-wider mb-2">Seller Details</h4>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div>
+                                    <span className="text-gray-500 block">Name</span>
+                                    <span className="font-medium text-gray-900">{product.seller_name}</span>
+                                </div>
+                                <div>
+                                    <span className="text-gray-500 block">Location</span>
+                                    <span className="font-medium text-gray-900">{product.seller_location}</span>
+                                </div>
+                                <div className="col-span-2">
+                                    <span className="text-gray-500 block">Contact</span>
+                                    <span className="font-medium text-gray-900">{product.seller_mobile}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-6">
                             <span className="text-indigo-600 font-medium">Current Highest Bid:</span>
                             <span className="text-3xl font-bold text-indigo-600">₹{currentHighestBid}</span>
                         </div>
@@ -104,19 +125,19 @@ const ProductDetails = () => {
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Bid History ({bids.length})</h3>
                         <div className="flow-root">
                             <ul className="-my-5 divide-y divide-gray-200">
-                                {bids.sort((a, b) => b.amount - a.amount).slice(0, 5).map((bid) => (
+                                {bids.sort((a, b) => b.bidded_amount - a.bidded_amount).slice(0, 5).map((bid) => (
                                     <li key={bid.id} className="py-4">
                                         <div className="flex items-center space-x-4">
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-sm font-medium text-gray-900 truncate">
-                                                    {bid.User ? bid.User.name : 'Unknown User'}
+                                                    {bid.bidder_name || 'Unknown User'}
                                                 </p>
                                                 <p className="text-sm text-gray-500">
                                                     {new Date(bid.created_at).toLocaleString()}
                                                 </p>
                                             </div>
                                             <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                ₹{bid.amount}
+                                                ₹{bid.bidded_amount}
                                             </div>
                                         </div>
                                     </li>
