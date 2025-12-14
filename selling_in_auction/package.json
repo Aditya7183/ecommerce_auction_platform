@@ -1,0 +1,36 @@
+{
+  "name": "selling_in_auction",
+  "version": "1.0.0",
+  "description": "an ecommerce application where people can sell old or new products by specifying the base price where people will bid, keep a dead line , where the highest bidder in that dead line will get the product.",
+  "homepage": "https://github.com/Aditya7183/ecommerce_auction_platform#readme",
+  "bugs": {
+    "url": "https://github.com/Aditya7183/ecommerce_auction_platform/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aditya7183/ecommerce_auction_platform.git"
+  },
+  "license": "ISC",
+  "author": "Aditya",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node scripts/migrate.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "sqlite3": "^5.1.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^13.0.0"
+  }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auction API Documentation</title>
+  <style>
+    /* Reset and Layout */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fafaFA;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 300;
+    }
+    header p {
+      margin-top: 10px;
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    /* Swagger UI Overrides (if needed) or Container */
+    #swagger-ui {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      padding: 20px;
+      border: 1px solid #eee;
+    }
+
+    /* Custom CSS to make Swagger look "Premium" without Tailwind */
+    .swagger-ui .topbar { display: none; } /* Hide default topbar */
+    
+    .swagger-ui .info { margin-bottom: 30px; }
+    .swagger-ui .info .title { color: #2c3e50; }
+    .swagger-ui .scheme-container { box-shadow: none; border-bottom: 1px solid #eaeaea; }
+    
+    .swagger-ui .opblock {
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      border: none;
+      margin-bottom: 15px;
+    }
+    
+    .swagger-ui .opblock-summary { border-radius: 6px; }
+    .swagger-ui .opblock.opblock-post { background: rgba(73, 204, 144, 0.1); }
+    .swagger-ui .opblock.opblock-post .opblock-summary { border-color: #49cc90; }
+    
+    .swagger-ui .opblock.opblock-get { background: rgba(97, 175, 254, 0.1); }
+    .swagger-ui .opblock.opblock-get .opblock-summary { border-color: #61affe; }
+    
+    .swagger-ui .btn.execute { background-color: #764ba2; border-color: #764ba2; color: white; }
+    .swagger-ui .btn.execute:hover { background-color: #667eea; }
+    
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Auction Platform API</h1>
+      <p>Official API Documentation</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="swagger-ui"></div>
+  </div>
+
+  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
+  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js" crossorigin></script>
+  <script>
+    window.onload = function() {
+      const ui = SwaggerUIBundle({
+        url: "/api/swagger.json",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "BaseLayout"
+      });
+      window.ui = ui;
+    };
+  </script>
+</body>
+</html>
